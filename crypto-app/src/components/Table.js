@@ -2,10 +2,6 @@ import React, { useContext } from "react";
 import { CryptoContext } from "../context/CryptoContext";
 
 const Table = () => {
-  const { test } = useContext(CryptoContext);
-
-  console.log(test);
-
   return (
     <div className="flex flex-col mt-9 border border-gray-100 rounded">
       <table className="w-full table-auto">
