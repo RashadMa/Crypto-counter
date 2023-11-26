@@ -5,7 +5,7 @@ export const CryptoContext = createContext({});
 export const CryptoProvider = ({ children }) => {
   const [data, setData] = useState();
 
-  const fetchCryptoDatas = async () => {
+  const getCryptos = async () => {
     try {
       let res = await axios.get(
         "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d&locale=en"
@@ -21,8 +21,10 @@ export const CryptoProvider = ({ children }) => {
     }
   };
   useEffect(() => {
-    fetchCryptoDatas();
+    getCryptos();
   }, []);
 
-  return <CryptoContext.Provider value={{}}>{children}</CryptoContext.Provider>;
+  return (
+    <CryptoContext.Provider value={{ data }}>{children}</CryptoContext.Provider>
+  );
 };
