@@ -1,17 +1,24 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import searchIcon from "../assets/search-icon.svg";
 import { CryptoContext } from "../context/CryptoContext";
+import debounce from "lodash.debounce";
 
-const Search = () => {
+const SearchInput = ({ handleSearch }) => {
   const [search, setSearch] = useState("");
-  let { getSearchedCryptos } = useContext(CryptoContext);
-
+  let { searchedData, setCoinSearch, setSearchedData } = useContext(CryptoContext);
+  
   let hangleChangeInput = (e) => {
     e.preventDefault();
     let query = e.target.value;
     setSearch(query);
-    getSearchedCryptos(query);
+    handleSearch(query);
   };
+
+  const selectCoin = (item) => {
+    setCoinSearch(item)
+    setSearch('')
+    setSearchedData()
+  }
   return (
     <>
       <form className="w-96 relative flex items-center ml-7 font-nunito">
@@ -29,12 +36,41 @@ const Search = () => {
       </form>
 
       {search.length > 0 ? (
-        <ul className="absolute top-11 right-0 w-full h-96 rounded overflow-x-hidden bg-gray-200 bg-opacity-60 backdrop-blur-md">
-          <li>coin</li>
-          <li>etherum</li>
+        <ul className="absolute top-11 right-0 w-96 h-96 rounded overflow-x-hidden bg-gray-200 bg-opacity-60 backdrop-blur-md">
+          {
+            searchedData ? 
+            searchedData.map(item => {return <li className="flex items-center ml-4 my-2 cursor-pointer"
+            key={item.id}
+            onClick={() => selectCoin(item.id)}
+            >
+                 <img
+                      className="w-[1rem] h-[1rem] mx-1.5"
+                      src={item.thumb}
+                      alt={item.name}
+                    />
+                    <span>
+                        {item.name}
+                    </span>
+            </li>})
+             : <h2>Loading...</h2>
+          }
         </ul>
       ) : null}
     </>
+  );
+};
+
+const Search = () => {
+  let { getSearchedCryptos } = useContext(CryptoContext);
+
+  const debounceHandle = debounce(function (a) {
+    getSearchedCryptos(a);
+  }, 2000);
+
+  return (
+    <div className="relative">
+      <SearchInput handleSearch={debounceHandle} />
+    </div>
   );
 };
 
