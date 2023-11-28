@@ -2,10 +2,11 @@ import React, { useContext, useRef } from "react";
 import Search from "./Search";
 import submitIcon from "../assets/submit-icon.svg";
 import { CryptoContext } from "../context/CryptoContext";
+import selectIcon from "../assets/select-icon.svg";
 
 const FilteredItems = () => {
   const currencyRef = useRef(null);
-  let { setCurrency } = useContext(CryptoContext);
+  let { setCurrency, setSortBy } = useContext(CryptoContext);
 
   const handleCurrencySubmit = (e) => {
     e.preventDefault();
@@ -13,6 +14,13 @@ const FilteredItems = () => {
     setCurrency(value);
     currencyRef.current.value = "";
   };
+
+  const handleSort = (e) => {
+    e.preventDefault();
+    let value = e.target.value;
+    setSortBy(value);
+  };
+
   return (
     <div className="w-full h-12 border-2 border-gray-100 rounded-lg flex items-center justify-between relative">
       <Search />
@@ -39,7 +47,26 @@ const FilteredItems = () => {
           </button>
         </form>
       </div>
-      <div>sorting</div>
+      <label className="relative flex justify-center items-center">
+        <span className="font-bold mr-2">Sort by: </span>
+        <select
+        onClick={handleSort}
+          name="sortby"
+          className="rounded bg-gray-200 text-base pl-2 pr-10 py-0.5 leading-4 capitalize focus:outline-0"
+        >
+          <option value="market_cap_asc">Market cap asc</option>
+          <option value="market_cap_desc">Market cap desc</option>
+          <option value="volume_asc">Volume asc</option>
+          <option value="volume_desc">Volume desc</option>
+          <option value="id_asc">Id asc</option>
+          <option value="id_desc">Id desc</option>
+        </select>
+        <img
+          src={selectIcon}
+          alt="select"
+          className="w-[1rem] h-auto absolute right-1 top-2 pointer-events-none"
+        />
+      </label>
     </div>
   );
 };
