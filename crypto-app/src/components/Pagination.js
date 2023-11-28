@@ -1,6 +1,37 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import paginationArrow from "../assets/pagination-arrow.svg";
 import { CryptoContext } from "../context/CryptoContext";
+import submitIcon from "../assets/submit-icon.svg";
+
+const PerPage = () => {
+  const inputRef = useRef(null);
+
+  return (
+    <form
+      // onSubmit={handleCurrencySubmit}
+      className="relative flex items-center font-nunito mr-12"
+    >
+      <label
+        htmlFor="perpage"
+        className="relative flex justify-center items-center mr-2 font-bold"
+      >
+        Per Page:
+      </label>
+      <input
+        ref={inputRef}
+        type="number"
+        name="perpage"
+        min={1}
+        max={250}
+        placeholder="10"
+        className="w-16 rounded bg-gray-200 placeholder::text-gray-100 pl-2 required outline-0 border border-transparent focus:border-cyan leading-4"
+      />
+      <button className="ml-1 cursor-pointer" type="submit">
+        <img src={submitIcon} alt="submit" className="w-full h-auto" />
+      </button>
+    </form>
+  );
+};
 
 const Pagination = () => {
   let { page, setPage, totalPages } = useContext(CryptoContext);
@@ -24,6 +55,7 @@ const Pagination = () => {
 
   return (
     <div className="flex items-center">
+      <PerPage />
       <ul className="flex items-center justify-end text-sm">
         <li className="flex items-center">
           <button onClick={prevPage} className="outline-0 hover:text-cyan w-8">
@@ -34,12 +66,6 @@ const Pagination = () => {
             />
           </button>
         </li>
-        {/* <li>
-          <button className="outline-0 hover:text-cyan rounded-full w-8 h-8 flex items-center justify-center ">
-            ...
-          </button>
-        </li> */}
-
         {page - 1 !== 0 ? (
           <li>
             <button
@@ -68,12 +94,6 @@ const Pagination = () => {
             </button>
           </li>
         ) : null}
-        {/* <li>
-          <button className="outline-0 hover:text-cyan rounded-full w-8 h-8 flex items-center justify-center ">
-            ...
-          </button>
-        </li> */}
-        <li>{/* <button>Last page</button> */}</li>
         {page !== AllPage ? (
           <li>
             <button

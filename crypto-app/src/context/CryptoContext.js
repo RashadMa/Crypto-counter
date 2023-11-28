@@ -48,6 +48,11 @@ export const CryptoProvider = ({ children }) => {
     }
   };
 
+  const reset = () => {
+    setPage(1)
+    setSearchedData('')
+  }
+
   useLayoutEffect(() => {
     getCryptos();
   }, [coinSearch, currency, sortBy, page]);
@@ -67,6 +72,7 @@ export const CryptoProvider = ({ children }) => {
         page,
         setPage,
         totalPages,
+        reset
       }}
     >
       {children}
