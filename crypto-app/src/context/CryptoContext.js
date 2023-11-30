@@ -4,6 +4,7 @@ export const CryptoContext = createContext({});
 
 export const CryptoProvider = ({ children }) => {
   const [data, setData] = useState();
+  const [coinData, setCoinData] = useState();
   const [searchedData, setSearchedData] = useState();
   const [coinSearch, setCoinSearch] = useState("");
   const [currency, setCurrency] = useState("Eur");
@@ -36,6 +37,19 @@ export const CryptoProvider = ({ children }) => {
     }
   };
 
+  const getCoinData = async (coinid) => {
+    try {
+      const data = await fetch(
+        `https://api.coingecko.com/api/v3/coins/${coinid}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=true&sparkline=false`
+      )
+        .then((res) => res.json())
+        .then((json) => json);
+      setCoinData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const getSearchedCryptos = async (query) => {
     try {
       const data = await fetch(
@@ -50,9 +64,9 @@ export const CryptoProvider = ({ children }) => {
   };
 
   const reset = () => {
-    setPage(1)
-    setSearchedData('')
-  }
+    setPage(1);
+    setSearchedData("");
+  };
 
   useLayoutEffect(() => {
     getCryptos();
@@ -75,7 +89,9 @@ export const CryptoProvider = ({ children }) => {
         totalPages,
         reset,
         setPerPage,
-        perPage
+        perPage,
+        getCoinData,
+        coinData,
       }}
     >
       {children}

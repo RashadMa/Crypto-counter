@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { CryptoContext } from "../context/CryptoContext";
 import Pagination from "./Pagination";
+import { Link } from "react-router-dom";
 
 const Table = () => {
   let { data, currency } = useContext(CryptoContext);
@@ -53,9 +54,17 @@ const Table = () => {
                         src={data.image}
                         alt={data.name}
                       />
-                      <span>{data.symbol}</span>
+                      <span>
+                        <Link to={`/${data.id}`} className="cursor-pointer">
+                          {data.symbol}
+                        </Link>
+                      </span>
                     </td>
-                    <td className="py-4">{data.name}</td>
+                    <td className="py-4">
+                      <Link to={`/${data.id}`} className="cursor-pointer">
+                        {data.name}
+                      </Link>
+                    </td>
                     <td className="py-4">
                       {new Intl.NumberFormat("en-IN", {
                         style: "currency",
@@ -107,7 +116,12 @@ const Table = () => {
       <div className="flex items-center justify-between mt-4 capitalize h-[2rem]">
         <span>
           Data provided by{" "}
-          <a className="text-cyan" href="http://www.coingecko.com" rel="noreferrer" target={"_blank"}>
+          <a
+            className="text-cyan"
+            href="http://www.coingecko.com"
+            rel="noreferrer"
+            target={"_blank"}
+          >
             CoinGecko
           </a>
         </span>
