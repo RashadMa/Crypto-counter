@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import { CryptoContext } from "../context/CryptoContext";
+import Chart from "./Chart";
 
 const HighLowIndicator = ({ currentPrice, high, low }) => {
   const [green, setGreen] = useState();
@@ -298,8 +299,8 @@ const CryptoDetails = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col w-[55%] h-full pr-2 bg-green">
-              Right
+            <div className="flex flex-col w-[55%] h-full pr-2">
+              <Chart id={data.id}/>
             </div>
           </div>
         ) : null}
