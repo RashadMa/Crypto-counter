@@ -39,23 +39,38 @@ const CryptoDetails = () => {
                 </span>
               </div>
 
-              <div>
-                <span>Price</span>
-                <div>
-                  <span>
-                    {Number(
-                      data.market_data.price_change_percentage_24h
-                    ).toFixed(2)}
-                    %
-                  </span>
+              <div className="flex w-full mt-6">
+                <div className="flex flex-col w-full">
+                  <div className="flex justify-between">
+                    <span className="text-sm capitalize text-gray-100">
+                      Price
+                    </span>
+                    <div
+                      className={`text-sm px-1 ml-2 font-medium flex items-center
+                    rounded uppercase bg-opacity-25
+                    ${
+                      data.market_data.price_change_percentage_24h > 0
+                        ? "bg-green text-green"
+                        : "bg-red text-red"
+                    }`}
+                    >
+                      <span>
+                        {Number(
+                          data.market_data.price_change_percentage_24h
+                        ).toFixed(2)}
+                        %
+                      </span>
+                    </div>
+                  </div>
+                  <h2>
+                    {new Intl.NumberFormat("en-IN", {
+                      style: "currency",
+                      currency: currency,
+                      maximumSignificantDigits: 5,
+                    }).format(data.market_data.current_price[currency])}
+                  </h2>
                 </div>
               </div>
-              <h2>
-                {new Intl.NumberFormat("en-IN", {
-                  style: "currency",
-                  currency: currency,
-                }).format(data.market_data.current_price[currency])}
-              </h2>
             </div>
             <div className="flex flex-col w-[55%] h-full pr-2 bg-green">
               Right
