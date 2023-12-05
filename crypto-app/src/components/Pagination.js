@@ -54,7 +54,6 @@ const Pagination = () => {
       setPage(page + 1);
     }
   };
-  console.log();
   const prevPage = () => {
     if (page === AllPage) {
       return null;

@@ -77,8 +77,6 @@ const Chart = ({ id }) => {
             [type]: item[1],
           };
         });
-        console.log("converted", convertedData);
-
         setChartData(convertedData);
       } catch (error) {
         console.log(error);
