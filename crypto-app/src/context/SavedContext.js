@@ -16,6 +16,13 @@ export const SavedProvider = ({ children }) => {
     }
   };
 
+  const removeCoin = (coinId) => {
+    let oldCoins = JSON.parse(localStorage.getItem("coins"));
+    let newCoin = oldCoins.filter((coin) => coin !== coinId);
+    setAllCoins(newCoin);
+    localStorage.setItem("coins", JSON.stringify(newCoin));
+  };
+
   useLayoutEffect(() => {
     let isThere = JSON.parse(localStorage.getItem("coins")) || false;
 
@@ -32,6 +39,7 @@ export const SavedProvider = ({ children }) => {
       value={{
         saveCoin,
         allCoins,
+        removeCoin,
       }}
     >
       {children}

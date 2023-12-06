@@ -4,11 +4,17 @@ import Pagination from "./Pagination";
 import { Link } from "react-router-dom";
 import { SavedContext } from "../context/SavedContext";
 
-const SaveBtn = ({data}) => {
-  const { saveCoin } = useContext(SavedContext);
+const SaveBtn = ({ data }) => {
+  const { saveCoin, allCoins, removeCoin } = useContext(SavedContext);
   const handleClick = (e) => {
     e.preventDefault();
     saveCoin(data.id);
+
+    if (allCoins.includes(data.id)) {
+      removeCoin(data.id);
+    } else {
+      saveCoin(data.id);
+    }
   };
 
   return (
@@ -17,7 +23,9 @@ const SaveBtn = ({data}) => {
       onClick={(e) => handleClick(e)}
     >
       <svg
-        className="w-[1.5rem] m1-1.5 fill-gray-100 hover:fill-cyan"
+        className={`w-[1.5rem] m1-1.5 
+        ${allCoins.includes(data.id) ? "fill-cyan" : "fill-gray-100"}
+         hover:fill-cyan`}
         width="30"
         height="30"
         viewBox="0 0 30 30"
