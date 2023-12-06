@@ -1,8 +1,13 @@
-import { createContext, useLayoutEffect, useState } from "react";
+import { createContext, useContext, useEffect, useLayoutEffect, useState } from "react";
+import { CryptoContext } from "./CryptoContext";
+import axios from "axios";
 export const SavedContext = createContext({});
 
 export const SavedProvider = ({ children }) => {
   const [allCoins, setAllCoins] = useState([]);
+  const [savedData, setSavedData] = useState();
+
+  let { currency, sortBy } = useContext(CryptoContext);
 
   const saveCoin = (coinId) => {
     let oldCoins = JSON.parse(localStorage.getItem("coins"));
@@ -23,6 +28,33 @@ export const SavedProvider = ({ children }) => {
     localStorage.setItem("coins", JSON.stringify(newCoin));
   };
 
+  const getSavedData = async (totalCoins = allCoins) => {
+    try {
+      const data = await fetch(
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${totalCoins.join(
+          ","
+        )}&order=${sortBy}&sparkline=false&price_change_percentage=1h%2C24h%2C7d&locale=en`
+      )
+        .then((res) => res.json())
+        .then((json) => json);
+      setSavedData(data);
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+
+    if (totalCoins.length > 0) {
+      getSavedData(totalCoins);
+    }
+  };
+
+  useEffect(() => {
+    if (allCoins.length > 0) {
+      getSavedData(allCoins);
+    } else {
+      setSavedData();
+    }
+  }, [allCoins]);
+
   useLayoutEffect(() => {
     let isThere = JSON.parse(localStorage.getItem("coins")) || false;
 
@@ -31,6 +63,10 @@ export const SavedProvider = ({ children }) => {
     } else {
       let totalCoins = JSON.parse(localStorage.getItem("coins"));
       setAllCoins(totalCoins);
+      
+      if (totalCoins.length > 0) {
+        getSavedData(totalCoins);
+      }
     }
   }, []);
 
@@ -40,6 +76,7 @@ export const SavedProvider = ({ children }) => {
         saveCoin,
         allCoins,
         removeCoin,
+        savedData,
       }}
     >
       {children}

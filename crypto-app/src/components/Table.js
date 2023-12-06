@@ -59,9 +59,9 @@ const Table = () => {
                 <th className="py-1">Price</th>
                 <th className="py-1">Total Volume</th>
                 <th className="py-1">Market Cap Change</th>
-                <th className="py-1">1H</th>
-                <th className="py-1">24H</th>
-                <th className="py-1">7D</th>
+                <th className="py-1 lg:table-cell hidden">1H</th>
+                <th className="py-1 lg:table-cell hidden">24H</th>
+                <th className="py-1 lg:table-cell hidden">7D</th>
               </tr>
             </thead>
             <tbody>
@@ -102,8 +102,8 @@ const Table = () => {
                     <td
                       className={
                         data.price_change_percentage_1h_in_currency > 0
-                          ? "text-green py-4"
-                          : "text-red py-4"
+                          ? "text-green py-4 lg:table-cell hidden"
+                          : "text-red py-4 lg:table-cell hidden"
                       }
                     >
                       {Number(
@@ -113,8 +113,8 @@ const Table = () => {
                     <td
                       className={
                         data.price_change_percentage_24h_in_currency > 0
-                          ? "text-green py-4"
-                          : "text-red py-4"
+                          ? "text-green py-4 lg:table-cell hidden"
+                          : "text-red py-4 lg:table-cell hidden"
                       }
                     >
                       {Number(data.price_change_percentage_24h).toFixed(2)}
@@ -122,8 +122,8 @@ const Table = () => {
                     <td
                       className={
                         data.price_change_percentage_7d_in_currency > 0
-                          ? "text-green py-4"
-                          : "text-red py-4"
+                          ? "text-green py-4 lg:table-cell hidden"
+                          : "text-red py-4 lg:table-cell hidden"
                       }
                     >
                       {Number(
